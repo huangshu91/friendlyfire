@@ -6,7 +6,7 @@
 	<meta title="FriendlyFire" package="com.nostradamus.friendlyfire.FriendlyFire" version="1.0.0" company="maiev" />
 
 	<!-- output -->
-	<app main="com.nostradamus.friendlyfire.Main" file="FriendlyFire" path="bin" />
+	<app main="com.nostradamus.friendlyfire.GameEngine" file="FriendlyFire" path="bin" />
 
 	<window background="#333333" fps="60" />
 	<window width="640" height="480" unless="mobile" />
