@@ -18,7 +18,7 @@ class GameEngine extends Engine
   
   function new()
   {
-    super(Config.kScreenWidth, Config.kScreenHeight, Config.kFrameRate, false);	
+    super(Config.screenWidth, Config.screenHeight, Config.frameRate, false);	
   }
 	
   override public function init()
@@ -31,7 +31,7 @@ class GameEngine extends Engine
       HXP.console.enable();
   }
 #end
-    HXP.screen.color = Config.kClearColor;
+    HXP.screen.color = Config.clearColor;
     HXP.screen.scale = 1;
     
     sceneManager = new SceneSys();

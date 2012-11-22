@@ -11,13 +11,11 @@ import com.haxepunk.HXP;
  * Any scene can call a switch function that will allow the manager to
  * detach the current scene and attach the next scene.
  */
-class SceneSys 
-{
+class SceneSys {
   public static inline var menuScene:Int = 1;
   public static inline var gameScene:Int = 2;
   
-  public function new() 
-  {
+  public function new() {
     // Do nothing?
   }
   
