@@ -3,9 +3,9 @@ package com.nostradamus.friendlyfire;
 import com.haxepunk.Engine;
 import com.haxepunk.HXP;
 import com.nostradamus.scene.SceneSys;
-
-import com.nostradamus.util.Config;
 import com.nostradamus.scene.MenuScene;
+import com.nostradamus.util.Config;
+import com.nostradamus.math.Vector;
 
 /**
  * ...
