@@ -5,11 +5,6 @@ package com.nostradamus.util;
  * @author maiev
  */
 
-enum States
-{
-  
-}
-
 class Config 
 {
   /*
