@@ -38,8 +38,7 @@ class PlayerEntity extends Entity, implements DynamicEntity {
     }
   }
   
-  public function getCenter() : Point {
+  public function getCenter():Point {
     return new Point(locX, locY);
   }
-  
 }

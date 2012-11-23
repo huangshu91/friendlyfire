@@ -5,11 +5,9 @@ package com.nostradamus.entity;
  * @author maiev
  */
 
-class EntitySys 
-{
+class EntitySys {
 
-  public function new() 
-  {
+  public function new() {
     
   }
   

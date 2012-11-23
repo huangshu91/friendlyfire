@@ -9,11 +9,11 @@ import com.nostradamus.scene.GameScene;
  * @author maiev
  */
 
- enum TurnOrder {
+enum TurnOrder {
   playerOne;
   playerTwo;
   world;
- }
+}
 
 class GameLoopSys {
   private var numPlay:Int;
@@ -23,7 +23,6 @@ class GameLoopSys {
     numPlay = Config.numPlayers; 
     currentTurn = playerOne;
   }
-  
   
   public function update() {
     /*
@@ -45,6 +44,7 @@ class GameLoopSys {
   }
   
   public function endTurn() {
+
     // Change camera focus and inbetween turn logic.
     switch (currentTurn) {
       case playerOne: currentTurn = playerTwo;

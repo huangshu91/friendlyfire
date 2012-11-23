@@ -1,7 +1,8 @@
 package com.nostradamus.friendlyfire;
 
-import com.haxepunk.Engine;
 import com.haxepunk.HXP;
+import com.haxepunk.Engine;
+
 import com.nostradamus.scene.SceneSys;
 import com.nostradamus.scene.MenuScene;
 import com.nostradamus.util.Config;
@@ -12,17 +13,14 @@ import com.nostradamus.math.Vector;
  * @author maiev
  */
 
-class GameEngine extends Engine 
-{
+class GameEngine extends Engine {
   public static var sceneManager:SceneSys;
   
-  function new()
-  {
+  function new(){
     super(Config.screenWidth, Config.screenHeight, Config.frameRate, false);	
   }
 	
-  override public function init()
-  {
+  override public function init() {
 #if debug
   #if flash
     if (flash.system.Capabilities.isDebugger)
@@ -39,8 +37,7 @@ class GameEngine extends Engine
     sceneManager.ChangeScene(SceneSys.menuScene);
   }
 
-  public static function main()
-  {
+  public static function main() {
     var app = new GameEngine();
   }
 }

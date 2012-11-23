@@ -61,5 +61,4 @@ class BoundCamera {
     HXP.camera.x = cameraX;
     HXP.camera.y = cameraY;
   }
-  
 }

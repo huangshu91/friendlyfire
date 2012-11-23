@@ -17,6 +17,7 @@
 	<classpath name="src" />
 	<haxelib name="nme" />
 	<haxelib name="HaxePunk" />
+  <haxelib name="box2d" />
 
 	<!-- assets -->
 	<icon path="assets/icon.svg" />
