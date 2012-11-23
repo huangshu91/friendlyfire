@@ -25,4 +25,6 @@ class Config
   public static inline var mapWidth:Int = 2000;
   
   public static inline var numPlayers:Int = 2;
+  
+  public static inline var physScale:Int = 30;
 }

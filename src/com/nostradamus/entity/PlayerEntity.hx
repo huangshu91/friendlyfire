@@ -8,13 +8,14 @@ import com.haxepunk.HXP;
 import nme.geom.Point;
 
 import com.nostradamus.scene.GameScene;
+import com.nostradamus.entity.B2dEntity;
 
 /**
  * ...
  * @author maiev
  */
 
-class PlayerEntity extends Entity, implements DynamicEntity {
+class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   // The default Entity.centerX and centerY are for hitbox not plain loc
   private var locX:Float;
@@ -37,7 +38,8 @@ class PlayerEntity extends Entity, implements DynamicEntity {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
     if (Input.released(Key.ENTER)) {
-      
+      var scene : GameScene = cast(HXP.world, GameScene);
+      scene.GetGameManager().endTurn();
     }
   }
   

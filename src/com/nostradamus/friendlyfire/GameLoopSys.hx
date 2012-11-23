@@ -51,11 +51,12 @@ class GameLoopSys {
       }
       case world: {
         endTurn();
+        return;
         // Currently nothing is done here.
       }
       default:
     }
-    var scene : GameScene = cast(HXP.world, GameScene);
+    var scene:GameScene = cast(HXP.world, GameScene);
     player = cast(HXP.world.getInstance(id), PlayerEntity);
     
     pt = player.getCenter();

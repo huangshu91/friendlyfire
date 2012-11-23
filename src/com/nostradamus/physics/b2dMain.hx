@@ -22,10 +22,11 @@ import com.nostradamus.util.Config;
 
 class B2dMain {
   private var world:B2World;
-  private var worldScale:Int = 30;
+  private var worldScale:Int;
 
   public function new() {
     world = new B2World(new B2Vec2(0, 5), true);
+    worldScale = Config.physScale;
 
     var debugDraw = new B2DebugDraw();
     var physicsDebug:Sprite = new Sprite();
@@ -57,12 +58,16 @@ class B2dMain {
     fixtureDef.shape = shapeDef;
     // fixed for now because testing
     fixtureDef.density = 1; 
-    fixtureDef.friction = 0.3;
+    fixtureDef.friction = 0.5;
     fixtureDef.restitution = 0.5;
 
     var body:B2Body = world.createBody(bodyDef);
     body.createFixture(fixtureDef);
     body.resetMassData();
+  }
+  
+  public function CreateBody(bodyDef:B2BodyDef):B2Body {
+    return world.createBody(bodyDef);
   }
 
   public function update() {

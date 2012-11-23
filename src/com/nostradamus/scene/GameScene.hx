@@ -25,7 +25,7 @@ class GameScene extends World {
   private static var bgColor:Int = 0x63524f;
   private var entityManager:EntitySys;
   private var gameManager:GameLoopSys;
-  private var b2d:B2dMain;
+  private var physicsWorld:B2dMain;
   
   public var worldCam:BoundCamera;
   
@@ -34,7 +34,7 @@ class GameScene extends World {
     // entityManager = new EntitySys(this);
     gameManager = new GameLoopSys(this);
     worldCam = new BoundCamera(this);
-    b2d = new B2dMain();
+    physicsWorld = new B2dMain();
   }
   
   public override function begin() {
@@ -54,16 +54,24 @@ class GameScene extends World {
   }
   
   public override function update() {
-    b2d.update();  
+    physicsWorld.update();  
     gameManager.update();
   }
 
   public override function render() {
     super.render();
-    b2d.render();
+    physicsWorld.render();
   }
   
-  public function getCamera():BoundCamera {
+  public function GetCamera():BoundCamera {
     return worldCam;
+  }
+  
+  public function GetGameManager():GameLoopSys {
+    return gameManager;
+  }
+  
+  public function GetPhysWorld():B2dMain {
+    return physicsWorld;
   }
 }
