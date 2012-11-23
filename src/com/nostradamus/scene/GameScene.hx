@@ -1,5 +1,6 @@
 package com.nostradamus.scene;
 
+import com.haxepunk.Entity;
 import com.haxepunk.HXP;
 import com.haxepunk.World;
 
@@ -40,12 +41,21 @@ class GameScene extends World {
     HXP.screen.color = bgColor;
     
     // hack the values for now.
-    add(new PlayerEntity(HXP.halfWidth - 16, HXP.halfHeight - 16, "p1"));
+    add(new PlayerEntity(HXP.halfWidth+50, HXP.halfHeight+50, "p1"));
     add(new PlayerEntity(500, 300, "p2"));
+    
+    var player : PlayerEntity = cast(HXP.world.getInstance("p2"), PlayerEntity);
+    //if (player == null) worldCam.center(1000, 500);
+    
+    //var ent: Entity = HXP.world.getInstance("p1");
+    //if (ent != null) worldCam.center(0, 0);
+    //worldCam.center(player.test, 500);
+    //HXP.camera.x = 500;
   }
   
   public override function update() {
-    b2d.update();    
+    b2d.update();  
+    gameManager.update();
   }
 
   public override function render() {

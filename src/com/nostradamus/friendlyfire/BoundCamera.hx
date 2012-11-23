@@ -29,14 +29,14 @@ class BoundCamera {
     camCenterX = cameraX + Config.screenWidth / 2;
   }
   
-  public function center(centerX:Int, centerY:Int) {
+  public function center(centerX:Float, centerY:Float) {
     /*
      * (maiev): In future we want the camera to "move" over to the
      * new location rather than teleport like this.
      */
      
-    cameraX = camCenterX - Config.screenWidth / 2;
-    cameraY = camCenterY - Config.screenHeight / 2;
+    cameraX = centerX - Config.screenWidth / 2;
+    cameraY = centerY - Config.screenHeight / 2;
     
     cameraX = (cameraX < 0) ? 0 : cameraX;
     cameraX = (cameraX + Config.screenWidth > Config.mapWidth) 
@@ -46,8 +46,8 @@ class BoundCamera {
     cameraY = (cameraY + Config.screenHeight > Config.mapHeight) 
               ? Config.mapHeight - Config.screenHeight : cameraY;
               
-    camCenterX = cameraX + Config.screenWidth;
-    camCenterY = cameraY + Config.screenHeight;
+    camCenterX = cameraX + Config.screenWidth / 2;
+    camCenterY = cameraY + Config.screenHeight / 2;
     
     MoveCamera();
   }

@@ -19,12 +19,15 @@ class PlayerEntity extends Entity, implements DynamicEntity {
   // The default Entity.centerX and centerY are for hitbox not plain loc
   private var locX:Float;
   private var locY:Float;
+  public var test:Float = 400;
 
   public function new(x:Float, y:Float, pName:String) {
     super(x, y);
     graphic = Image.createRect(32, 32, 0xDDEEFF);
-    locX = this.halfWidth + x;
-    locY = this.halfHeight + y;
+    
+    // (maiev): this is hardcoded until I find a method to get the halfsize
+    locX = this.halfWidth + x + 16;
+    locY = this.halfHeight + y + 16;
     name = pName;
   }
   
