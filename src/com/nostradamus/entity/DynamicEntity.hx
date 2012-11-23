@@ -1,5 +1,7 @@
 package com.nostradamus.entity;
 
+import nme.geom.Point;
+
 /**
  * ...
  * @author maiev
@@ -7,6 +9,10 @@ package com.nostradamus.entity;
 
 interface DynamicEntity
 {
+  // The default Entity.centerX and centerY are for hitbox not plain loc
+  private var locX:Float;
+  private var locY:Float;
 
+  function getCenter() : Point;
   
 }

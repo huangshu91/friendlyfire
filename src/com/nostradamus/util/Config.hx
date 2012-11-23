@@ -23,4 +23,6 @@ class Config
   //(amiev): Use this for now but in future define map size 
   public static inline var mapHeight:Int = 1000;
   public static inline var mapWidth:Int = 2000;
+  
+  public static inline var numPlayers:Int = 2;
 }
