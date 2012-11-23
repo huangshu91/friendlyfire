@@ -32,7 +32,7 @@ class GameScene extends World {
   public function new() {
     super();
     // entityManager = new EntitySys(this);
-    gameManager = new GameLoopSys(this);
+    gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
   }

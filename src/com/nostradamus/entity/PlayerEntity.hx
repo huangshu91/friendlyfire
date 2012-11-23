@@ -9,6 +9,7 @@ import nme.geom.Point;
 
 import com.nostradamus.scene.GameScene;
 import com.nostradamus.entity.B2dEntity;
+import com.nostradamus.util.Config;
 
 /**
  * ...
@@ -23,7 +24,9 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   public var test:Float = 400;
 
   public function new(x:Float, y:Float, pName:String) {
-    super(x, y);
+    // (maiev): 16 is hardcoded for now but the idea is that we want
+    // all coordinate to be center rather than top left.
+    super(x-16, y-16);
     graphic = Image.createRect(32, 32, 0xDDEEFF);
     
     // (maiev): this is hardcoded until I find a method to get the halfsize
@@ -41,6 +44,8 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       var scene : GameScene = cast(HXP.world, GameScene);
       scene.GetGameManager().endTurn();
     }
+    
+    this.moveTo(bodyCenterX-16, bodyCenterY-16);
   }
   
   public function getCenter():Point {

@@ -21,11 +21,8 @@ class GameLoopSys {
   private var numPlay:Int;
   private var currentTurn:TurnOrder;
   
-  private var gameWorld:GameScene;
-  
-  public function new(world:GameScene) {
+  public function new() {
     numPlay = Config.numPlayers; 
-    gameWorld = world;
     currentTurn = playerOne;
   }
   
@@ -56,12 +53,13 @@ class GameLoopSys {
       }
       default:
     }
+    
     var scene:GameScene = cast(HXP.world, GameScene);
     player = cast(HXP.world.getInstance(id), PlayerEntity);
     
     pt = player.getCenter();
     
-    scene.worldCam.center(pt.x, pt.y);
+    //scene.worldCam.center(pt.x, pt.y);
     
   }
   
