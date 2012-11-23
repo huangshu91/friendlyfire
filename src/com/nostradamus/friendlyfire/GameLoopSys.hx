@@ -36,18 +36,27 @@ class GameLoopSys {
     var pt : Point;
     var player : PlayerEntity;
     var id : String = "";
-     
+    
+    var playerList:Array<PlayerEntity> = [];
+    HXP.world.getClass(PlayerEntity, playerList);
+    for (i in 0...playerList.length) {
+      playerList[i].update();
+    }
+    
+    
     switch (currentTurn) {
       case playerOne: {
-        HXP.world.getInstance("p1").update();
         id = "p1";
+        player = cast(HXP.world.getInstance(id), PlayerEntity);
+        player.UpdateTurn();
       }
       case playerTwo: {
-        HXP.world.getInstance("p2").update();
         id = "p2";
+        player = cast(HXP.world.getInstance(id), PlayerEntity);
+        player.UpdateTurn();
       }
       case world: {
-        endTurn();
+        EndTurn();
         return;
         // Currently nothing is done here.
       }
@@ -55,15 +64,14 @@ class GameLoopSys {
     }
     
     var scene:GameScene = cast(HXP.world, GameScene);
-    player = cast(HXP.world.getInstance(id), PlayerEntity);
     
-    pt = player.getCenter();
+    //pt = player.getCenter();
     
     //scene.worldCam.center(pt.x, pt.y);
     
   }
   
-  public function endTurn() {
+  public function EndTurn() {
 
     // Change camera focus and inbetween turn logic.
     switch (currentTurn) {

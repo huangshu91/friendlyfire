@@ -33,11 +33,13 @@ class B2dEntity extends Entity {
     fixtureDef.restitution = 0.5;
     radius = 16;
     
-    var bodyDef:B2BodyDef = new B2BodyDef();
-    bodyDef.type = B2Body.b2_dynamicBody;
-    bodyDef.position.set(x / Config.physScale, y / Config.physScale);
     bodyCenterX = x / Config.physScale;
     bodyCenterY = y / Config.physScale;
+    
+    var bodyDef:B2BodyDef = new B2BodyDef();
+    bodyDef.type = B2Body.b2_dynamicBody;
+    bodyDef.position.set((x+16) / Config.physScale, (y+16) / Config.physScale);
+
 
     // (maiev): for now the size/radius is hardcoded but we can define
     var circShape:B2CircleShape = new B2CircleShape(radius / Config.physScale);

@@ -37,15 +37,17 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   override public function update() {
     super.update();
-
+    
+    this.moveTo(bodyCenterX-16, bodyCenterY-16);
+  }
+  
+  public function UpdateTurn() {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
     if (Input.released(Key.ENTER)) {
       var scene : GameScene = cast(HXP.world, GameScene);
-      scene.GetGameManager().endTurn();
+      scene.GetGameManager().EndTurn();
     }
-    
-    this.moveTo(bodyCenterX-16, bodyCenterY-16);
   }
   
   public function getCenter():Point {

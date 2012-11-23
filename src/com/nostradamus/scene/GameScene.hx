@@ -32,9 +32,11 @@ class GameScene extends World {
   public function new() {
     super();
     // entityManager = new EntitySys(this);
+
     gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
+    
   }
   
   public override function begin() {
@@ -45,22 +47,19 @@ class GameScene extends World {
     add(new PlayerEntity(500, 300, "p2"));
     
     var player : PlayerEntity = cast(HXP.world.getInstance("p2"), PlayerEntity);
-    //if (player == null) worldCam.center(1000, 500);
-    
-    //var ent: Entity = HXP.world.getInstance("p1");
-    //if (ent != null) worldCam.center(0, 0);
-    //worldCam.center(player.test, 500);
-    //HXP.camera.x = 500;
   }
   
   public override function update() {
+    super.update();
     physicsWorld.update();  
     gameManager.update();
+    super.update();
   }
 
   public override function render() {
     super.render();
     physicsWorld.render();
+    
   }
   
   public function GetCamera():BoundCamera {
