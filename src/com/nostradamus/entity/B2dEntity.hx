@@ -25,20 +25,29 @@ class B2dEntity extends Entity {
   
   private var radius:Float;
 
-  public function new(x:Float, y:Float, size:Float, 
+  public function new(x:Float, y:Float, size:Float,
                       game:GameScene, type:EntityType) {
     super(x, y);
-    var fixtureDef:B2FixtureDef = new B2FixtureDef();
     scene = game;
-    fixtureDef.density = 1; 
-    fixtureDef.friction = 0.6;
-    fixtureDef.restitution = 0.5;
     
-    
-    radius = 16;
-    
+    switch (type) {
+      case EntityType.PLAYER: {
+        playerBody(x, y, size);
+      }
+      case EntityType.BULLET: {
+        
+      }
+      case EntityType.OBJECT: {
+        
+      }
+      default:
+    }
+  }
+  
+  private function playerBody(x:Float, y:Float, size:Float) {
     bodyCenterX = (x+16) / Config.physScale;
     bodyCenterY = (y+16) / Config.physScale;
+    radius = size;
     
     var bodyDef:B2BodyDef = new B2BodyDef();
     bodyDef.type = B2Body.b2_dynamicBody;
@@ -52,15 +61,11 @@ class B2dEntity extends Entity {
     fixtureDef.shape = circShape;
     // fixed for now because testing
     fixtureDef.density = 1; 
-    fixtureDef.friction = 0.3;
+    fixtureDef.friction = 0.9;
     fixtureDef.restitution = 0.5;
     
     body = scene.physicsWorld.CreateBody(bodyDef);
     body.createFixture(fixtureDef);
-  }
-  
-  private function playerBody(x:Float, y:Float, size:Float) {
-    
   }
  
   override public function update() {

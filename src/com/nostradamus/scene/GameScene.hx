@@ -44,8 +44,8 @@ class GameScene extends World {
     
     // hack the values for now.
     add(new PlayerEntity(HXP.halfWidth + 50, 
-        HXP.halfHeight+50, "p1", 16, this));
-    add(new PlayerEntity(500, 300, "p2", 16, this));
+        HXP.halfHeight + 50, "p1", 16, this));
+    add(new PlayerEntity(500, 300, "p2", 16 , this));
     
   }
   
@@ -53,7 +53,6 @@ class GameScene extends World {
     super.update();
     physicsWorld.update();  
     gameManager.update();
-    super.update();
   }
 
   public override function render() {

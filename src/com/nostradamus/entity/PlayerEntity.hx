@@ -36,7 +36,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
     // all coordinate to be center rather than top left.
-    super(x-16, y-16, size, world, EntityType.PLAYER);
+    super(x - 16, y - 16, size, world, EntityType.PLAYER);
     graphic = Image.createRect(32, 32, 0xDDEEFF);
     hasFired = false;
     
@@ -56,7 +56,6 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
     if (Input.released(Key.ENTER)) {
-      var scene : GameScene = cast(HXP.world, GameScene);
       scene.GetGameManager().EndTurn();
     }
     
