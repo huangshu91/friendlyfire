@@ -24,8 +24,8 @@ class GameScene extends World {
   
   private static var bgColor:Int = 0x63524f;
   private var entityManager:EntitySys;
-  private var gameManager:GameLoopSys;
-  private var physicsWorld:B2dMain;
+  private var gameManager(GetGameManager, null):GameLoopSys;
+  public var physicsWorld(GetPhysWorld, null):B2dMain;
   
   public var worldCam:BoundCamera;
   

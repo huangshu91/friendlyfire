@@ -58,6 +58,9 @@ class GameLoopSys {
         HXP.log("player2 turn");
       }
       case world: {
+        for (i in 0...playerList.length) {
+          playerList[i].ResetFire();
+        }
         EndTurn();
         return;
         // Currently nothing is done here.

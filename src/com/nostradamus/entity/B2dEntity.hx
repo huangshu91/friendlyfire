@@ -25,7 +25,8 @@ class B2dEntity extends Entity {
   
   private var radius:Float;
 
-  public function new(x:Float, y:Float, size:Float, game:GameScene ) {
+  public function new(x:Float, y:Float, size:Float, 
+                      game:GameScene, type:EntityType) {
     super(x, y);
     var fixtureDef:B2FixtureDef = new B2FixtureDef();
     scene = game;
@@ -54,7 +55,7 @@ class B2dEntity extends Entity {
     fixtureDef.friction = 0.3;
     fixtureDef.restitution = 0.5;
     
-    body = scene.GetPhysWorld().CreateBody(bodyDef);
+    body = scene.physicsWorld.CreateBody(bodyDef);
     body.createFixture(fixtureDef);
   }
   

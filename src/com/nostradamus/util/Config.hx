@@ -5,8 +5,13 @@ package com.nostradamus.util;
  * @author maiev
  */
 
-class Config 
-{
+enum EntityType {
+  PLAYER;
+  BULLET;
+  OBJECT;
+}
+
+class Config {
   /*
    * (Maiev):
    * Need to scale this for mobile versions.
