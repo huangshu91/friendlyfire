@@ -55,6 +55,7 @@ class GameScene extends World {
     super.update();
     physicsWorld.update();  
     gameManager.update();
+    terrain.update();
   }
 
   public override function render() {

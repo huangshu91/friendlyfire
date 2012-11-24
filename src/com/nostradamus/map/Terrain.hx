@@ -1,6 +1,7 @@
 package com.nostradamus.map;
 
 import com.haxepunk.HXP;
+import com.haxepunk.utils.Input;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.display.Sprite;
@@ -11,12 +12,14 @@ import com.nostradamus.math.Vector;
 
 class Terrain {
   private var image:Bitmap;
+  private var circleMask:Bitmap;
   private var kernelSize:Int = 5;
   private var borderPixels:Array<Point>;
   private var sprite:Sprite;
 
   public function new(path:String) {
     image = new Bitmap(Assets.getBitmapData(path));
+    circleMask = new Bitmap(Assets.getBitmapData("gfx/mask.png"));
     borderPixels = new Array<Point>();
     sprite = new Sprite();
     findBorderPixels();
@@ -25,8 +28,33 @@ class Terrain {
     HXP.engine.addChild(sprite);
   }
 
-  public function carveCircle(point:Point, radius:Int) {
+  public function carveCircle(x:Int, y:Int) {
+    carveShape(x, y, circleMask);
 
+    /* (adn): Empty border pixels array and recalculate border pixels.
+     * findBorderPixels should be optimized because this is called whenever
+     * the map changes and that should happen a lot in game.
+     * Also, this could happen with in a very quick interval (think Boomer 
+     * shots), so it should be fast enough to not slow anything.
+     * Right now there's a very noticeable delay.
+     */
+    resetColors(); 
+    borderPixels.splice(0, borderPixels.length); 
+    findBorderPixels();
+    debugDraw();
+  }
+
+  private function carveShape(x:Int, y:Int, mask:Bitmap) {
+    var w = mask.bitmapData.width;
+    var h = mask.bitmapData.height;
+    for (i in 0...w) {
+      for (j in 0...h) {
+        var color:Int = mask.bitmapData.getPixel(i, j);
+        if (color == 16711422) {
+          image.bitmapData.setPixel32(x + i - Std.int(w/2), y + j - Std.int(h/2), 0x000000ff);
+        }
+      }
+    }
   }
 
   private function debugDraw() {
@@ -35,7 +63,19 @@ class Terrain {
       image.bitmapData.setPixel(Std.int(borderPixels[i].x), 
       Std.int(borderPixels[i].y), 0xff0000);
     }
+  }
+  
+  private function resetColors() {
+    for (i in 0...borderPixels.length) {
+      image.bitmapData.setPixel(Std.int(borderPixels[i].x),
+      Std.int(borderPixels[i].y), 0xfefefe);
+    }
+  }
 
+  public function update() {
+    if (Input.mousePressed) {
+      carveCircle(Input.mouseX, Input.mouseY);
+    }
   }
 
   public function render() {
