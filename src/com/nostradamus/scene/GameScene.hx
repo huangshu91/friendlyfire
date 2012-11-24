@@ -43,10 +43,10 @@ class GameScene extends World {
     HXP.screen.color = bgColor;
     
     // hack the values for now.
-    add(new PlayerEntity(HXP.halfWidth+50, HXP.halfHeight+50, "p1"));
-    add(new PlayerEntity(500, 300, "p2"));
+    add(new PlayerEntity(HXP.halfWidth + 50, 
+        HXP.halfHeight+50, "p1", 16, this));
+    add(new PlayerEntity(500, 300, "p2", 16, this));
     
-    var player : PlayerEntity = cast(HXP.world.getInstance("p2"), PlayerEntity);
   }
   
   public override function update() {

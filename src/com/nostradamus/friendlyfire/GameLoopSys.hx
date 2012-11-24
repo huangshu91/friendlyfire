@@ -49,11 +49,13 @@ class GameLoopSys {
         id = "p1";
         player = cast(HXP.world.getInstance(id), PlayerEntity);
         player.UpdateTurn();
+        HXP.log("player1 turn");
       }
       case playerTwo: {
         id = "p2";
         player = cast(HXP.world.getInstance(id), PlayerEntity);
         player.UpdateTurn();
+        HXP.log("player2 turn");
       }
       case world: {
         EndTurn();

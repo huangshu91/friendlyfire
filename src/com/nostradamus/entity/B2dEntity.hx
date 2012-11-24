@@ -22,19 +22,22 @@ class B2dEntity extends Entity {
   
   private var bodyCenterX:Float;
   private var bodyCenterY:Float;
+  
   private var radius:Float;
 
-  public function new(x:Float, y:Float) {
+  public function new(x:Float, y:Float, size:Float, game:GameScene ) {
     super(x, y);
     var fixtureDef:B2FixtureDef = new B2FixtureDef();
-    scene = cast(HXP.world, GameScene);
+    scene = game;
     fixtureDef.density = 1; 
     fixtureDef.friction = 0.6;
     fixtureDef.restitution = 0.5;
+    
+    
     radius = 16;
     
-    bodyCenterX = x / Config.physScale;
-    bodyCenterY = y / Config.physScale;
+    bodyCenterX = (x+16) / Config.physScale;
+    bodyCenterY = (y+16) / Config.physScale;
     
     var bodyDef:B2BodyDef = new B2BodyDef();
     bodyDef.type = B2Body.b2_dynamicBody;
@@ -55,6 +58,9 @@ class B2dEntity extends Entity {
     body.createFixture(fixtureDef);
   }
   
+  private function playerBody(x:Float, y:Float, size:Float) {
+    
+  }
  
   override public function update() {
     super.update();

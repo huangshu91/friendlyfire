@@ -23,10 +23,10 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   private var locY:Float;
   public var test:Float = 400;
 
-  public function new(x:Float, y:Float, pName:String) {
+  public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
     // all coordinate to be center rather than top left.
-    super(x-16, y-16);
+    super(x-16, y-16, size, world);
     graphic = Image.createRect(32, 32, 0xDDEEFF);
     
     // (maiev): this is hardcoded until I find a method to get the halfsize
