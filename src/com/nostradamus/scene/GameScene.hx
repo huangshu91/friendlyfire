@@ -60,7 +60,7 @@ class GameScene extends World {
   public override function render() {
     super.render();
     physicsWorld.render();
-
+    terrain.render();
   }
   
   public function GetCamera():BoundCamera {

@@ -1,9 +1,9 @@
 package com.nostradamus.map;
 
 import com.haxepunk.HXP;
-import com.haxepunk.utils.Draw;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.display.Sprite;
 import nme.Assets;
 import nme.geom.Point;
 
@@ -11,26 +11,45 @@ import com.nostradamus.math.Vector;
 
 class Terrain {
   private var image:Bitmap;
-  private var data:BitmapData;
-  private var kernelSize:Int = 3;
+  private var kernelSize:Int = 5;
   private var borderPixels:Array<Point>;
+  private var sprite:Sprite;
 
   public function new(path:String) {
     image = new Bitmap(Assets.getBitmapData(path));
     borderPixels = new Array<Point>();
+    sprite = new Sprite();
     findBorderPixels();
-    debugDrawBorderPixels();
+    debugDraw();
     HXP.engine.addChild(image);
+    HXP.engine.addChild(sprite);
   }
 
-  public function calculateNormals() {
+  public function carveCircle(point:Point, radius:Int) {
 
   }
 
-  private function debugDrawBorderPixels() {
+  private function debugDraw() {
+    // Draw border pixels
     for (i in 0...borderPixels.length) {
       image.bitmapData.setPixel(Std.int(borderPixels[i].x), 
       Std.int(borderPixels[i].y), 0xff0000);
+    }
+
+  }
+
+  public function render() {
+    sprite.graphics.clear();
+    // Draw normals
+    var n = 0;
+    while (n < borderPixels.length) {
+      var x = Std.int(borderPixels[n].x);
+      var y = Std.int(borderPixels[n].y);
+      var normal = getNormal(x, y); 
+      sprite.graphics.lineStyle(1, 0x000000);
+      sprite.graphics.moveTo(x, y);
+      sprite.graphics.lineTo(x + 20*normal.x, y + 20*normal.y);
+      n += 25;
     }
   }
 
@@ -42,8 +61,8 @@ class Terrain {
    */
   private function findBorderPixels() {
     var counter:Int = 0;
-    for (i in 0...image.bitmapData.width) {
-      for (j in 0...image.bitmapData.height) {
+    for (i in 1...image.bitmapData.width-1) {
+      for (j in 1...image.bitmapData.height-1) {
         if (isBorderPixel(i, j)) {
           borderPixels.push(new Point(i, j));
         }
@@ -51,12 +70,13 @@ class Terrain {
     } 
   }
 
-  public function getNormal(x:Int, y:Int):Vector{
+  public function getNormal(x:Int, y:Int) {
     var average:Vector = new Vector();
-    for (i in -kernelSize...kernelSize) {
-      for (j in -kernelSize...kernelSize) {
+
+    for (i in -kernelSize...kernelSize+1) {
+      for (j in -kernelSize...kernelSize+1) {
         if (isPixelSolid(x + i, y + j)) {
-          average.x -= i;
+          average.x -= i; 
           average.y -= j;
         }
       }
@@ -80,8 +100,8 @@ class Terrain {
    */
   private function isBorderPixel(x:Int, y:Int):Bool {
     if (isPixelSolid(x, y)) {
-      for (i in -1...1) {
-        for (j in -1...1) {
+      for (i in -1...2) {
+        for (j in -1...2) {
           if (!isPixelSolid(x + i, y + j)) {
             return true;
           }
