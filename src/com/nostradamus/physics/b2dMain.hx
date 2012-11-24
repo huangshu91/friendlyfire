@@ -37,10 +37,10 @@ class B2dMain {
     world.setDebugDraw(debugDraw);
 
     CreateBox(320, 460, 320, 20, false);
-    CreateBox(310, 0, 25, 25, true);
-    CreateBox(300, 40, 25, 25, true);
-    CreateBox(290, 80, 25, 25, true);
-    CreateBox(320, 120, 25, 25, true);
+    //CreateBox(310, 0, 25, 25, true);
+    //CreateBox(300, 40, 25, 25, true);
+    //CreateBox(290, 80, 25, 25, true);
+    //CreateBox(320, 120, 25, 25, true);
   }
 
   public function CreateBox(x:Float=0, y:Float=0, width:Float, height:Float, dynamicBody:Bool) {

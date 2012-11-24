@@ -37,6 +37,7 @@ class GameScene extends World {
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
     
+    HXP.console.enable();
   }
   
   public override function begin() {
@@ -56,9 +57,9 @@ class GameScene extends World {
   }
 
   public override function render() {
-    super.render();
+    //super.render();
     physicsWorld.render();
-    
+    super.render();
   }
   
   public function GetCamera():BoundCamera {

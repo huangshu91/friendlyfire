@@ -11,6 +11,7 @@ import nme.geom.Point;
 import com.nostradamus.scene.GameScene;
 import com.nostradamus.entity.B2dEntity;
 import com.nostradamus.util.Config;
+import com.nostradamus.entity.DynamicEntity;
 
 /**
  * ...
@@ -32,17 +33,22 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   private var hasFired:Bool;
   
   public var bullets:Array<BulletEntity>;
+  
+  public var dir:Facing;
 
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
     // all coordinate to be center rather than top left.
-    super(x - 16, y - 16, size, world, EntityType.PLAYER);
+    super(x - size, y - size, size, world, EntityType.PLAYER);
     graphic = Image.createRect(32, 32, 0xDDEEFF);
     hasFired = false;
+    dir = Facing.RIGHT;
+    
+    bullets = new Array<BulletEntity>();
     
     // (maiev): this is hardcoded until I find a method to get the halfsize
-    locX = this.halfWidth + x + 16;
-    locY = this.halfHeight + y + 16;
+    locX = this.halfWidth + x + size;
+    locY = this.halfHeight + y + size;
     name = pName;
   }
   
@@ -59,9 +65,10 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       scene.GetGameManager().EndTurn();
     }
     
-    if (Input.released(Key.Z) && hasFired == false) {
+    if (Input.released(Key.Z)){// && hasFired == false) {
       //create a bullet
       hasFired = true;
+      bullets.push(new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene));
     }
   }
   

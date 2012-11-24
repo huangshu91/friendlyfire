@@ -45,13 +45,13 @@ class B2dEntity extends Entity {
   }
   
   private function playerBody(x:Float, y:Float, size:Float) {
-    bodyCenterX = (x+16) / Config.physScale;
-    bodyCenterY = (y+16) / Config.physScale;
+    bodyCenterX = (x+size) / Config.physScale;
+    bodyCenterY = (y+size) / Config.physScale;
     radius = size;
     
     var bodyDef:B2BodyDef = new B2BodyDef();
     bodyDef.type = B2Body.b2_dynamicBody;
-    bodyDef.position.set((x+16) / Config.physScale, (y+16) / Config.physScale);
+    bodyDef.position.set((x+size) / Config.physScale, (y+size) / Config.physScale);
 
 
     // (maiev): for now the size/radius is hardcoded but we can define
@@ -70,8 +70,12 @@ class B2dEntity extends Entity {
  
   override public function update() {
     super.update();
-    bodyCenterX = Config.physScale * body.getPosition().x;
-    bodyCenterY = Config.physScale * body.getPosition().y;
+    
+    var newX:Float = Config.physScale * body.getPosition().x;
+    var newY:Float = Config.physScale * body.getPosition().y;
+    
+    bodyCenterX = newX;
+    bodyCenterY = newY;
   }
   
 }
