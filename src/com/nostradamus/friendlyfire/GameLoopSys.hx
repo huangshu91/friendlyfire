@@ -33,16 +33,15 @@ class GameLoopSys {
      * this is important so if its another persons turn (network)
      * then accept no input for your bot.
      */
-    var pt : Point;
-    var player : PlayerEntity;
-    var id : String = "";
+    var pt:Point;
+    var player:PlayerEntity;
+    var id:String = "";
     
     var playerList:Array<PlayerEntity> = [];
     HXP.world.getClass(PlayerEntity, playerList);
     for (i in 0...playerList.length) {
       playerList[i].update();
     }
-    
     
     switch (currentTurn) {
       case playerOne: {
@@ -69,11 +68,8 @@ class GameLoopSys {
     }
     
     var scene:GameScene = cast(HXP.world, GameScene);
-    
     //pt = player.getCenter();
-    
     //scene.worldCam.center(pt.x, pt.y);
-    
   }
   
   public function EndTurn() {

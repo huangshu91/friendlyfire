@@ -32,7 +32,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   private var hasFired:Bool;
   
-  public var bullets:Array<BulletEntity>;
+  public var bullets(GetBullets, null):Array<BulletEntity>;
   
   public var dir:Facing;
 
@@ -62,7 +62,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
     if (Input.released(Key.ENTER)) {
-      scene.GetGameManager().EndTurn();
+      scene.gameManager.EndTurn();
     }
     
     if (Input.released(Key.Z)){// && hasFired == false) {
@@ -71,16 +71,16 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       bullets.push(new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene));
     }
   }
-  
-  public function getCenter():Point {
-    return new Point(locX, locY);
+
+  public function ResetFire() {
+    hasFired = false;
   }
   
   public function GetBullets():Array<BulletEntity> {
     return bullets;
   }
-  
-  public function ResetFire() {
-    hasFired = false;
+
+  public function GetCenter():Point {
+    return new Point(locX, locY);
   }
 }

@@ -18,5 +18,5 @@ interface DynamicEntity {
   private var locX:Float;
   private var locY:Float;
 
-  function getCenter():Point;
+  function GetCenter():Point;
 }
