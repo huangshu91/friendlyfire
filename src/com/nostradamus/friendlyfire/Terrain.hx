@@ -1,4 +1,4 @@
-package com.nostradamus.map;
+package com.nostradamus.friendlyfire;
 
 import com.haxepunk.HXP;
 import com.haxepunk.utils.Input;
@@ -22,29 +22,28 @@ class Terrain {
     circleMask = new Bitmap(Assets.getBitmapData("gfx/mask.png"));
     borderPixels = new Array<Point>();
     sprite = new Sprite();
-    findBorderPixels();
+    FindBorderPixels();
     debugDraw();
     HXP.engine.addChild(image);
     HXP.engine.addChild(sprite);
   }
 
   public function carveCircle(x:Int, y:Int) {
-    carveShape(x, y, circleMask);
-
+    CarveShape(x, y, circleMask);
+    debugResetColors(); 
     /* (adn): Empty border pixels array and recalculate border pixels.
-     * findBorderPixels should be optimized because this is called whenever
+     * FindBorderPixels should be optimized because this is called whenever
      * the map changes and that should happen a lot in game.
      * Also, this could happen with in a very quick interval (think Boomer 
      * shots), so it should be fast enough to not slow anything.
      * Right now there's a very noticeable delay.
      */
-    resetColors(); 
     borderPixels.splice(0, borderPixels.length); 
-    findBorderPixels();
+    FindBorderPixels();
     debugDraw();
   }
 
-  private function carveShape(x:Int, y:Int, mask:Bitmap) {
+  private function CarveShape(x:Int, y:Int, mask:Bitmap) {
     var w = mask.bitmapData.width;
     var h = mask.bitmapData.height;
     for (i in 0...w) {
@@ -56,22 +55,7 @@ class Terrain {
       }
     }
   }
-
-  private function debugDraw() {
-    // Draw border pixels
-    for (i in 0...borderPixels.length) {
-      image.bitmapData.setPixel(Std.int(borderPixels[i].x), 
-      Std.int(borderPixels[i].y), 0xff0000);
-    }
-  }
   
-  private function resetColors() {
-    for (i in 0...borderPixels.length) {
-      image.bitmapData.setPixel(Std.int(borderPixels[i].x),
-      Std.int(borderPixels[i].y), 0xfefefe);
-    }
-  }
-
   public function update() {
     if (Input.mousePressed) {
       carveCircle(Input.mouseX, Input.mouseY);
@@ -85,11 +69,26 @@ class Terrain {
     while (n < borderPixels.length) {
       var x = Std.int(borderPixels[n].x);
       var y = Std.int(borderPixels[n].y);
-      var normal = getNormal(x, y); 
+      var normal = GetNormal(x, y); 
       sprite.graphics.lineStyle(1, 0x000000);
       sprite.graphics.moveTo(x, y);
       sprite.graphics.lineTo(x + 20*normal.x, y + 20*normal.y);
       n += 25;
+    }
+  }
+
+  private function debugDraw() {
+    // Draw border pixels
+    for (i in 0...borderPixels.length) {
+      image.bitmapData.setPixel(Std.int(borderPixels[i].x), 
+      Std.int(borderPixels[i].y), 0xff0000);
+    }
+  }
+  
+  private function debugResetColors() {
+    for (i in 0...borderPixels.length) {
+      image.bitmapData.setPixel(Std.int(borderPixels[i].x),
+      Std.int(borderPixels[i].y), 0xfefefe);
     }
   }
 
@@ -99,23 +98,23 @@ class Terrain {
    * that means having to mess with the borderPixels array (removing the old
    * ones and adding the new ones). This can get complicated really easily...
    */
-  private function findBorderPixels() {
+  private function FindBorderPixels() {
     var counter:Int = 0;
     for (i in 1...image.bitmapData.width-1) {
       for (j in 1...image.bitmapData.height-1) {
-        if (isBorderPixel(i, j)) {
+        if (IsBorderPixel(i, j)) {
           borderPixels.push(new Point(i, j));
         }
       }
     } 
   }
 
-  public function getNormal(x:Int, y:Int) {
+  public function GetNormal(x:Int, y:Int) {
     var average:Vector = new Vector();
 
     for (i in -kernelSize...kernelSize+1) {
       for (j in -kernelSize...kernelSize+1) {
-        if (isPixelSolid(x + i, y + j)) {
+        if (IsPixelSolid(x + i, y + j)) {
           average.x -= i; 
           average.y -= j;
         }
@@ -124,7 +123,7 @@ class Terrain {
     return average.normalized();
   }
 
-  private function isPixelSolid(x:Int, y:Int):Bool {
+  private function IsPixelSolid(x:Int, y:Int):Bool {
     var color:Int = image.bitmapData.getPixel(x, y);
 
     //need to find a better way to do this;;
@@ -138,11 +137,11 @@ class Terrain {
   /* A pixel is only a border pixel if it is solid and it has at least one
    * non-solid pixel in its 3x3 neighborhood.
    */
-  private function isBorderPixel(x:Int, y:Int):Bool {
-    if (isPixelSolid(x, y)) {
+  private function IsBorderPixel(x:Int, y:Int):Bool {
+    if (IsPixelSolid(x, y)) {
       for (i in -1...2) {
         for (j in -1...2) {
-          if (!isPixelSolid(x + i, y + j)) {
+          if (!IsPixelSolid(x + i, y + j)) {
             return true;
           }
         }

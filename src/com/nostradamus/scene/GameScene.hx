@@ -5,11 +5,11 @@ import com.haxepunk.HXP;
 import com.haxepunk.World;
 
 import com.nostradamus.entity.PlayerEntity;
+import com.nostradamus.entity.EntitySys;
 import com.nostradamus.friendlyfire.BoundCamera;
 import com.nostradamus.friendlyfire.GameLoopSys;
-import com.nostradamus.physics.B2dMain;
-import com.nostradamus.entity.EntitySys;
-import com.nostradamus.map.Terrain;
+import com.nostradamus.friendlyfire.B2dMain;
+import com.nostradamus.friendlyfire.Terrain;
 
 /**
  * ...
@@ -22,11 +22,10 @@ import com.nostradamus.map.Terrain;
  * In the future, decide what map to load, add networking code, etc
  */
 class GameScene extends World {
-  
   private static var bgColor:Int = 0x63524f;
   private var terrain:Terrain;
-  private var entityManager:EntitySys;
-  private var gameManager(GetGameManager, null):GameLoopSys;
+  public var entityManager:EntitySys;
+  public var gameManager(GetGameManager, null):GameLoopSys;
   public var physicsWorld(GetPhysWorld, null):B2dMain;
   
   public var worldCam:BoundCamera;
@@ -39,6 +38,7 @@ class GameScene extends World {
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
     terrain = new Terrain("gfx/map.png");
+    HXP.console.enable();
   }
   
   public override function begin() {
@@ -63,16 +63,18 @@ class GameScene extends World {
     physicsWorld.render();
     terrain.render();
   }
-  
-  public function GetCamera():BoundCamera {
+
+
+
+  private function GetCamera():BoundCamera {
     return worldCam;
   }
   
-  public function GetGameManager():GameLoopSys {
+  private function GetGameManager():GameLoopSys {
     return gameManager;
   }
   
-  public function GetPhysWorld():B2dMain {
+  private function GetPhysWorld():B2dMain {
     return physicsWorld;
   }
 }

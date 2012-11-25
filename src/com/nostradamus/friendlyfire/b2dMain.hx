@@ -1,4 +1,4 @@
-package com.nostradamus.physics;
+package com.nostradamus.friendlyfire;
 
 import com.haxepunk.HXP;
 import box2D.collision.shapes.B2PolygonShape;
@@ -19,7 +19,6 @@ import com.nostradamus.util.Config;
  * http://www.joshuagranick.com/blog/2011/10/28/simple-box2d-example-as3-and-haxe-side-by-side/
  * C:\Motion-Twin\haxe\lib\box2d\1,12\box2D\*
  */
-
 class B2dMain {
   private var world:B2World;
   private var worldScale:Int;

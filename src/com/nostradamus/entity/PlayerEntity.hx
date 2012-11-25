@@ -31,7 +31,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   private var hasFired:Bool;
   
-  public var bullets:Array<BulletEntity>;
+  public var bullets(GetBullets, null):Array<BulletEntity>;
 
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
@@ -56,7 +56,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
     if (Input.released(Key.ENTER)) {
-      scene.GetGameManager().EndTurn();
+      scene.gameManager.EndTurn();
     }
     
     if (Input.released(Key.Z) && hasFired == false) {
@@ -64,16 +64,18 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       hasFired = true;
     }
   }
+
+  public function ResetFire() {
+    hasFired = false;
+  }
   
-  public function getCenter():Point {
+
+
+  public function GetCenter():Point {
     return new Point(locX, locY);
   }
   
   public function GetBullets():Array<BulletEntity> {
     return bullets;
-  }
-  
-  public function ResetFire() {
-    hasFired = false;
   }
 }

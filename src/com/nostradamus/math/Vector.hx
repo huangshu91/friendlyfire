@@ -8,7 +8,7 @@ class Vector
 {
   public var x:Float;
   public var y:Float;
-  public var length(getLength, null):Float;
+  public var length(GetLength, null):Float;
 
   public function new(?inX:Float=0, ?inY:Float=0) {
     x = inX;
@@ -85,9 +85,7 @@ class Vector
 
 
 
-  /* Setters and getters */
-
-  private function getLength():Float {
+  private function GetLength():Float {
     return Math.sqrt(x*x + y*y);
   }
 }
