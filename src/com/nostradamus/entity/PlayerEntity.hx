@@ -32,7 +32,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   private var hasFired:Bool;
   
-  public var bullets(GetBullets, null):Array<BulletEntity>;
+  public var bullets:Array<BulletEntity>;
   
   public var dir:Facing;
 
@@ -76,9 +76,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     hasFired = false;
   }
   
-  public function GetBullets():Array<BulletEntity> {
-    return bullets;
-  }
+
 
   public function GetCenter():Point {
     return new Point(locX, locY);

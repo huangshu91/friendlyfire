@@ -16,17 +16,14 @@ import com.nostradamus.util.Config;
  * different bots can use.
  */
 class BulletEntity extends B2dEntity {
-  
   private var locX:Float;
   private var locY:Float;
   
   // Use this for now but in future bullet size is determined by shot
   private var bulletSize:Int = 8;
 
-  public function new(x:Float, y:Float, game:GameScene) 
-  {
+  public function new(x:Float, y:Float, game:GameScene) {
     super(x-bulletSize, y-bulletSize, bulletSize, game, EntityType.BULLET);
     graphic = Image.createCircle(bulletSize, 0xDDEEFF);
   }
-  
 }

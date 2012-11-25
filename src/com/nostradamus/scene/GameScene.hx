@@ -33,10 +33,11 @@ class GameScene extends World {
     super();
     // entityManager = new EntitySys(this);
 
+    terrain = new Terrain("gfx/map.png");
     gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
-    terrain = new Terrain("gfx/map.png");
+    HXP.console.enable();
   }
   
   public override function begin() {
@@ -50,27 +51,15 @@ class GameScene extends World {
   }
   
   public override function update() {
+    terrain.update();
     super.update();
     physicsWorld.update();  
     gameManager.update();
-    terrain.update();
   }
 
   public override function render() {
+    terrain.render();
     super.render();
     physicsWorld.render();
-    terrain.render();
-  }
-  
-  public function GetCamera():BoundCamera {
-    return worldCam;
-  }
-  
-  public function GetGameManager():GameLoopSys {
-    return gameManager;
-  }
-  
-  public function GetPhysWorld():B2dMain {
-    return physicsWorld;
   }
 }
