@@ -25,9 +25,8 @@ class GameScene extends World {
   private static var bgColor:Int = 0x63524f;
   private var terrain:Terrain;
   public var entityManager:EntitySys;
-  public var gameManager(GetGameManager, null):GameLoopSys;
-  public var physicsWorld(GetPhysWorld, null):B2dMain;
-  
+  public var gameManager:GameLoopSys;
+  public var physicsWorld:B2dMain;
   public var worldCam:BoundCamera;
   
   public function new() {
@@ -38,7 +37,6 @@ class GameScene extends World {
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
     terrain = new Terrain("gfx/map.png");
-    HXP.console.enable();
   }
   
   public override function begin() {
@@ -62,19 +60,5 @@ class GameScene extends World {
     super.render();
     physicsWorld.render();
     terrain.render();
-  }
-
-
-
-  private function GetCamera():BoundCamera {
-    return worldCam;
-  }
-  
-  private function GetGameManager():GameLoopSys {
-    return gameManager;
-  }
-  
-  private function GetPhysWorld():B2dMain {
-    return physicsWorld;
   }
 }

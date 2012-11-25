@@ -31,7 +31,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   private var hasFired:Bool;
   
-  public var bullets(GetBullets, null):Array<BulletEntity>;
+  public var bullets:Array<BulletEntity>;
 
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
@@ -73,9 +73,5 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
 
   public function GetCenter():Point {
     return new Point(locX, locY);
-  }
-  
-  public function GetBullets():Array<BulletEntity> {
-    return bullets;
   }
 }
