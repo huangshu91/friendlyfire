@@ -35,7 +35,7 @@ class B2dEntity extends Entity {
         playerBody(x, y, size);
       }
       case EntityType.BULLET: {
-        
+        playerBody(x, y, size);
       }
       case EntityType.OBJECT: {
         
