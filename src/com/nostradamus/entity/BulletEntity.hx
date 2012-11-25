@@ -24,6 +24,11 @@ class BulletEntity extends B2dEntity {
 
   public function new(x:Float, y:Float, game:GameScene) {
     super(x-bulletSize, y-bulletSize, bulletSize, game, EntityType.BULLET);
-    graphic = Image.createCircle(bulletSize, 0xDDEEFF);
+    graphic = Image.createCircle(bulletSize, 0x3333FF);
+  }
+
+  override public function update() {
+    super.update();
+    this.moveTo(bodyCenterX-8, bodyCenterY-8);
   }
 }

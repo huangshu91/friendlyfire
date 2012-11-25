@@ -40,7 +40,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     // (maiev): 16 is hardcoded for now but the idea is that we want
     // all coordinate to be center rather than top left.
     super(x - size, y - size, size, world, EntityType.PLAYER);
-    graphic = Image.createRect(32, 32, 0xDDEEFF);
+    graphic = Image.createRect(32, 32, 0xFF3333);
     hasFired = false;
     dir = Facing.RIGHT;
     
@@ -54,7 +54,6 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   override public function update() {
     super.update();
-    
     this.moveTo(bodyCenterX-16, bodyCenterY-16);
   }
   
@@ -68,7 +67,9 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     if (Input.released(Key.Z)){// && hasFired == false) {
       //create a bullet
       hasFired = true;
-      bullets.push(new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene));
+      var bullet = new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene);
+      bullets.push(bullet);
+      HXP.world.add(bullet);
     }
   }
 

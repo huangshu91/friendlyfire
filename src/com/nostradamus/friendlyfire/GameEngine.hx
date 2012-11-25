@@ -37,6 +37,11 @@ class GameEngine extends Engine {
     sceneManager.ChangeScene(SceneSys.menuScene);
   }
 
+  override public function render() {
+    super.render();
+    HXP.world.render();
+  }
+
   public static function main() {
     var app = new GameEngine();
   }

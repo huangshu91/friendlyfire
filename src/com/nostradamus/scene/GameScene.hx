@@ -47,19 +47,18 @@ class GameScene extends World {
     add(new PlayerEntity(HXP.halfWidth + 50, 
         HXP.halfHeight + 50, "p1", 16, this));
     add(new PlayerEntity(500, 300, "p2", 16 , this));
-    
   }
   
   public override function update() {
-    terrain.update();
     super.update();
+    terrain.update();
     physicsWorld.update();  
     gameManager.update();
   }
 
   public override function render() {
-    terrain.render();
     super.render();
-    physicsWorld.render();
+    terrain.render();
+    // physicsWorld.render();
   }
 }

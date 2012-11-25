@@ -77,5 +77,4 @@ class B2dEntity extends Entity {
     bodyCenterX = newX;
     bodyCenterY = newY;
   }
-  
 }
