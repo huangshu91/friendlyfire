@@ -32,4 +32,10 @@ class Config {
   public static inline var numPlayers:Int = 2;
   
   public static inline var physScale:Int = 30;
+  
+  // 5 degrees per second
+  public static inline var angleRate:Int = 20;
+  
+  // Angle indicator length of 30 px
+  public static inline var angleLength:Int = 30;
 }

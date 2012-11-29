@@ -3,6 +3,7 @@ package com.nostradamus.scene;
 import com.haxepunk.Entity;
 import com.haxepunk.HXP;
 import com.haxepunk.World;
+import com.haxepunk.utils.Draw;
 
 import com.nostradamus.entity.PlayerEntity;
 import com.nostradamus.entity.EntitySys;
@@ -32,8 +33,9 @@ class GameScene extends World {
   public function new() {
     super();
     // entityManager = new EntitySys(this);
+    Draw.setTarget(HXP.buffer);
 
-    terrain = new Terrain("gfx/map.png");
+    //terrain = new Terrain("gfx/map.png");
     gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
@@ -51,14 +53,14 @@ class GameScene extends World {
   
   public override function update() {
     super.update();
-    terrain.update();
+    //terrain.update();
     physicsWorld.update();  
     gameManager.update();
   }
 
   public override function render() {
     super.render();
-    terrain.render();
+    // terrain.render();
     // physicsWorld.render();
   }
 }

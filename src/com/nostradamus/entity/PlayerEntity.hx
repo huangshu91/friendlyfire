@@ -6,6 +6,7 @@ import com.haxepunk.math.Vector;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 import com.haxepunk.HXP;
+import nme.display.Sprite;
 import nme.geom.Point;
 
 import com.nostradamus.scene.GameScene;
@@ -35,6 +36,13 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   public var bullets:Array<BulletEntity>;
   
   public var dir:Facing;
+  
+  // tilt is is entity is on slope
+  private var angle:Float;
+  private var tilt:Float;
+  private var angleInd:Sprite;
+  
+  private var keyHeld:Float;
 
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
@@ -43,7 +51,12 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     graphic = Image.createRect(32, 32, 0xFF3333);
     hasFired = false;
     dir = Facing.RIGHT;
-    
+    keyHeld = 0;
+    tilt = 0;
+    angle = 0;
+    angleInd = new Sprite();
+    HXP.engine.addChild(angleInd);
+
     bullets = new Array<BulletEntity>();
     
     // (maiev): this is hardcoded until I find a method to get the halfsize
@@ -54,7 +67,18 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   
   override public function update() {
     super.update();
-    this.moveTo(bodyCenterX-16, bodyCenterY-16);
+    this.moveTo(bodyCenterX - 16, bodyCenterY - 16);
+    
+    // (maiev): move all drawing code to render in future
+    angleInd.graphics.clear();
+    angleInd.graphics.lineStyle(1, 0xFFFFFF);
+    angleInd.graphics.moveTo(bodyCenterX, bodyCenterY);
+    
+    // 57.3 is how many degrees in a radian, use constant in future
+    var newX:Float = 30 * Math.cos(angle/57.3);
+    var newY:Float = 30 * Math.sin(angle/57.3);
+    angleInd.graphics.lineTo(bodyCenterX + newX, bodyCenterY - newY);
+    
   }
   
   public function UpdateTurn() {
@@ -67,10 +91,31 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     if (Input.released(Key.Z)){// && hasFired == false) {
       //create a bullet
       hasFired = true;
-      var bullet = new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene);
+      var bullet = new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene, this);
       bullets.push(bullet);
       HXP.world.add(bullet);
     }
+    
+    if (Input.check(Key.UP) && !Input.check(Key.DOWN)) {
+
+      keyHeld += HXP.elapsed;
+      if (keyHeld > (1 / Config.angleRate) && angle <= 90) {
+        angle++;
+        keyHeld = 0;
+      }
+      
+    } else if (Input.check(Key.DOWN) && !Input.check(Key.UP)) {
+    
+      keyHeld += HXP.elapsed;
+      if (keyHeld > (1 / Config.angleRate) && angle >= 0) {
+        angle--;
+        keyHeld = 0;
+      }
+      
+    } else {
+      keyHeld = 0;
+    }
+    
   }
 
   public function ResetFire() {
