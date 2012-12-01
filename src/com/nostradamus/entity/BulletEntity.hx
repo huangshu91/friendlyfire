@@ -5,6 +5,7 @@ import com.haxepunk.graphics.Image;
 
 import com.nostradamus.scene.GameScene;
 import com.nostradamus.util.Config;
+import com.nostradamus.entity.DynamicEntity;
 
 /**
  * ...
@@ -39,6 +40,9 @@ class BulletEntity extends B2dEntity {
     var impulse:B2Vec2 = 
       new B2Vec2(initForce * Math.cos((parent.angle + parent.tilt) / 57.3),
                  -initForce * Math.sin((parent.angle + parent.tilt) / 57.3));
+    if (parent.dir == Facing.LEFT) {
+      impulse.x *= -1;
+    }
     var center:B2Vec2 = new B2Vec2(bodyCenterX, bodyCenterY);
     body.applyImpulse(impulse, center);
   }

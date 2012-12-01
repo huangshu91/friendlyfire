@@ -79,7 +79,11 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     
     // 57.3 is how many degrees in a radian, use constant in future
     var newX:Float = 30 * Math.cos((angle+tilt)/57.3);
-    var newY:Float = 30 * Math.sin((angle+tilt)/57.3);
+    var newY:Float = 30 * Math.sin((angle + tilt) / 57.3);
+    if (dir == Facing.LEFT) {
+      // default is facing right, reverse if left
+      newX *= -1;
+    }
     angleInd.graphics.lineTo(bodyCenterX + newX, bodyCenterY - newY);
     
   }
@@ -91,22 +95,18 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       scene.gameManager.EndTurn();
     }
     
-    /*
-    if (Input.released(Key.Z)){// && hasFired == false) {
-      //create a bullet
-      hasFired = true;
-      var bullet = new BulletEntity(bodyCenterX + 30, bodyCenterY - 20, scene, this);
-      bullets.push(bullet);
-      HXP.world.add(bullet);
-    }
-    */
     if (Input.check(Key.Z)) { // && hasFired == false
       shotPower += Config.chargeRate * HXP.elapsed;
       if (shotPower > 60) shotPower = Config.maxPower;
       HXP.log(shotPower);
     } else if (Input.released(Key.Z)) {
         hasFired = true;
-        var bullet = new BulletEntity(bodyCenterX + 30, bodyCenterY - 20, 
+        
+        var xOffset:Float;
+        xOffset = (dir == Facing.LEFT) ? -30 : 30;
+        // 30 and 20 are offsets so bullet does not collide with body
+        // in future, mask so they can't collide.
+        var bullet = new BulletEntity(bodyCenterX + xOffset, bodyCenterY - 20, 
                                       scene, this);
         bullets.push(bullet);
         HXP.world.add(bullet);
@@ -130,6 +130,12 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       
     } else {
       keyHeld = 0;
+    }
+    
+    if (Input.pressed(Key.LEFT)) {
+      dir = Facing.LEFT;
+    } else if (Input.pressed(Key.RIGHT)) {
+      dir = Facing.RIGHT;
     }
     
   }
