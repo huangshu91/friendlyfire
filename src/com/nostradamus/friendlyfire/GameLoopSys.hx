@@ -67,9 +67,6 @@ class GameLoopSys {
       default:
     }
     
-    var scene:GameScene = cast(HXP.world, GameScene);
-    //pt = player.getCenter();
-    //scene.worldCam.center(pt.x, pt.y);
   }
   
   public function EndTurn() {

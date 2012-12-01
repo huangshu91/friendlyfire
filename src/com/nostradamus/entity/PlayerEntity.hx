@@ -38,8 +38,8 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   public var dir:Facing;
   
   // tilt is is entity is on slope
-  private var angle:Float;
-  private var tilt:Float;
+  public var angle:Float;
+  public var tilt:Float;
   private var angleInd:Sprite;
   
   private var keyHeld:Float;
@@ -75,8 +75,8 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     angleInd.graphics.moveTo(bodyCenterX, bodyCenterY);
     
     // 57.3 is how many degrees in a radian, use constant in future
-    var newX:Float = 30 * Math.cos(angle/57.3);
-    var newY:Float = 30 * Math.sin(angle/57.3);
+    var newX:Float = 30 * Math.cos((angle+tilt)/57.3);
+    var newY:Float = 30 * Math.sin((angle+tilt)/57.3);
     angleInd.graphics.lineTo(bodyCenterX + newX, bodyCenterY - newY);
     
   }
@@ -91,13 +91,12 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     if (Input.released(Key.Z)){// && hasFired == false) {
       //create a bullet
       hasFired = true;
-      var bullet = new BulletEntity(bodyCenterX + 10, bodyCenterY - 10, scene, this);
+      var bullet = new BulletEntity(bodyCenterX + 30, bodyCenterY - 20, scene, this);
       bullets.push(bullet);
       HXP.world.add(bullet);
     }
     
     if (Input.check(Key.UP) && !Input.check(Key.DOWN)) {
-
       keyHeld += HXP.elapsed;
       if (keyHeld > (1 / Config.angleRate) && angle <= 90) {
         angle++;

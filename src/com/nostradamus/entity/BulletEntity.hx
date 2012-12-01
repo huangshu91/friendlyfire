@@ -25,16 +25,21 @@ class BulletEntity extends B2dEntity {
   private var bulletSpeed:Float = 10;
   
   private var parent:PlayerEntity;
+  
+  private var initForce:Float;
 
   public function new(x:Float, y:Float, game:GameScene, owner:PlayerEntity) {
     super(x - bulletSize, y - bulletSize, bulletSize, game, EntityType.BULLET);
     parent = owner;
+    initForce = 30/Config.physScale;
     locX = x - bulletSize;
     locY = y - bulletSize;
     graphic = Image.createCircle(bulletSize, 0x3333FF);
     
-    var impulse:B2Vec2 = new B2Vec2(10/Config.physScale, -10/Config.physScale);
-    var center:B2Vec2 = new B2Vec2(0, 0);
+    var impulse:B2Vec2 = 
+      new B2Vec2(initForce * Math.cos((parent.angle + parent.tilt) / 57.3),
+                 -initForce * Math.sin((parent.angle + parent.tilt) / 57.3));
+    var center:B2Vec2 = new B2Vec2(bodyCenterX, bodyCenterY);
     body.applyImpulse(impulse, center);
   }
 
