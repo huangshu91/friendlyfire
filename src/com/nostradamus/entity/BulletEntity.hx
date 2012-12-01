@@ -31,7 +31,7 @@ class BulletEntity extends B2dEntity {
   public function new(x:Float, y:Float, game:GameScene, owner:PlayerEntity) {
     super(x - bulletSize, y - bulletSize, bulletSize, game, EntityType.BULLET);
     parent = owner;
-    initForce = 30/Config.physScale;
+    initForce = parent.shotPower/Config.physScale;
     locX = x - bulletSize;
     locY = y - bulletSize;
     graphic = Image.createCircle(bulletSize, 0x3333FF);

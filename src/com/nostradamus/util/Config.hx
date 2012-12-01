@@ -36,6 +36,11 @@ class Config {
   // 5 degrees per second
   public static inline var angleRate:Int = 20;
   
+  // shot charge rate 20 "impulse" per second
+  public static inline var chargeRate:Int = 20;
+  
   // Angle indicator length of 30 px
   public static inline var angleLength:Int = 30;
+  
+  public static inline var maxPower:Int = 60;
 }

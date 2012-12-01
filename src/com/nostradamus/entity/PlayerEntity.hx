@@ -43,6 +43,8 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
   private var angleInd:Sprite;
   
   private var keyHeld:Float;
+  
+  public var shotPower:Float;
 
   public function new(x:Float, y:Float, pName:String, size:Float, world:GameScene) {
     // (maiev): 16 is hardcoded for now but the idea is that we want
@@ -52,6 +54,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     hasFired = false;
     dir = Facing.RIGHT;
     keyHeld = 0;
+    shotPower = 0;
     tilt = 0;
     angle = 0;
     angleInd = new Sprite();
@@ -88,12 +91,26 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       scene.gameManager.EndTurn();
     }
     
+    /*
     if (Input.released(Key.Z)){// && hasFired == false) {
       //create a bullet
       hasFired = true;
       var bullet = new BulletEntity(bodyCenterX + 30, bodyCenterY - 20, scene, this);
       bullets.push(bullet);
       HXP.world.add(bullet);
+    }
+    */
+    if (Input.check(Key.Z)) { // && hasFired == false
+      shotPower += Config.chargeRate * HXP.elapsed;
+      if (shotPower > 60) shotPower = Config.maxPower;
+      HXP.log(shotPower);
+    } else if (Input.released(Key.Z)) {
+        hasFired = true;
+        var bullet = new BulletEntity(bodyCenterX + 30, bodyCenterY - 20, 
+                                      scene, this);
+        bullets.push(bullet);
+        HXP.world.add(bullet);
+        shotPower = 0;
     }
     
     if (Input.check(Key.UP) && !Input.check(Key.DOWN)) {
