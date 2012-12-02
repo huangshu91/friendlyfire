@@ -14,21 +14,23 @@ class Terrain {
   private var image:Bitmap;
   private var circleMask:Bitmap;
   private var kernelSize:Int = 5;
-  private var borderPixels:Hash<Array<Int>>;
+  private var borderPixels:Array<Array<Int>>;
   private var sprite:Sprite;
   private var xOffset:Int = -10;
 
   public function new(path:String) {
     image = new Bitmap(Assets.getBitmapData(path));
+    image.x = xOffset;
     circleMask = new Bitmap(Assets.getBitmapData("gfx/mask.png"));
-    borderPixels = new Hash<Array<Int>>();
+    borderPixels = new Array<Array<Int>>();
     sprite = new Sprite();
+    InitializeBorderPixels(Std.int(image.bitmapData.width/2),
+                           Std.int(image.bitmapData.width/2-2));
     FindBorderPixels(Std.int(image.bitmapData.width/2), 
                      Std.int(image.bitmapData.height/2), 
                      Std.int(image.bitmapData.width/2)-2, 
                      Std.int(image.bitmapData.height/2)-2);
     debugDraw();
-    image.x = xOffset;
     HXP.engine.addChild(image);
     HXP.engine.addChild(sprite);
   }
@@ -86,46 +88,51 @@ class Terrain {
   }
 
   private function debugDraw() {
-    for (key in borderPixels.keys()) {
-      var current_x:Array<Int> = borderPixels.get(key);
-      for (i in 0...current_x.length) {
-        image.bitmapData.setPixel(Std.parseInt(key), current_x[i], 0xff0000);
+    for (i in 0...borderPixels.length) {
+      if (borderPixels[i] != null) {
+        for (j in 0...borderPixels[i].length) {
+          image.bitmapData.setPixel(i, borderPixels[i][j], 0xff0000);
+        }
       }
     }
   }
   
   private function debugResetColors() {
-    for (key in borderPixels.keys()) {
-      var current_x:Array<Int> = borderPixels.get(key);
-      for (i in 0...current_x.length) {
-        image.bitmapData.setPixel(Std.parseInt(key), current_x[i], 0xfefefe);
+    for (i in 0...borderPixels.length) {
+      if (borderPixels[i] != null) {
+        for (j in 0...borderPixels[i].length) {
+          image.bitmapData.setPixel(i, borderPixels[i][j], 0xfefefe);
+        }
       }
     }
   }
 
   private function FindBorderPixels(x:Int, y:Int, width:Int, height:Int) {
-    InitializeBorderPixels(x, width);
+    ClearBorderPixels(x, y, width, height);
     for (i in x-width...x+width) {
-      for (j in 1...image.bitmapData.height-1) {
+      for (j in y-height...y+height) {
         if (IsBorderPixel(i, j)) {
-          var value:Array<Int> = borderPixels.get(Std.string(i));
-          value.push(j);
-          borderPixels.set(Std.string(i), value);
+          if (borderPixels[i] != null) {
+            borderPixels[i].push(j);
+          }
         }
       }
     } 
   }
 
   private function InitializeBorderPixels(x:Int, width:Int) {
-    ClearBorderPixels(x, width);
     for (i in x-width...x+width) {
-      borderPixels.set(Std.string(i), new Array<Int>());
+      borderPixels[i] = new Array<Int>();
     }
   }
 
-  private function ClearBorderPixels(x:Int, width:Int) {
+  private function ClearBorderPixels(x:Int, y:Int, width:Int, height:Int) {
     for (i in x-width...x+width) {
-      borderPixels.remove(Std.string(i));
+      for (j in y-height...y+height) {
+        if (borderPixels[i] != null) {
+          borderPixels[i].remove(j);
+        }
+      }
     }
   }
 
