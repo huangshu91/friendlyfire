@@ -35,32 +35,31 @@ class GameScene extends World {
     // entityManager = new EntitySys(this);
     Draw.setTarget(HXP.buffer);
 
-    //terrain = new Terrain("gfx/map.png");
+    terrain = new Terrain("gfx/map.png");
     gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
-    HXP.console.enable();
+    //HXP.console.enable();
   }
   
   public override function begin() {
     HXP.screen.color = bgColor;
     
     // hack the values for now.
-    add(new PlayerEntity(HXP.halfWidth + 50, 
-        HXP.halfHeight + 50, "p1", 16, this));
-    add(new PlayerEntity(500, 300, "p2", 16 , this));
+    add(new PlayerEntity(HXP.halfWidth + 50, 100, "p1", 16, this));
+    add(new PlayerEntity(500, 100, "p2", 16 , this));
   }
   
   public override function update() {
     super.update();
-    //terrain.update();
+    terrain.update();
     physicsWorld.update();  
     gameManager.update();
   }
 
   public override function render() {
     super.render();
-    // terrain.render();
+    terrain.render();
     // physicsWorld.render();
   }
 }

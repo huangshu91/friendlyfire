@@ -78,8 +78,8 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     angleInd.graphics.moveTo(bodyCenterX, bodyCenterY);
     
     // 57.3 is how many degrees in a radian, use constant in future
-    var newX:Float = 30 * Math.cos((angle+tilt)/57.3);
-    var newY:Float = 30 * Math.sin((angle + tilt) / 57.3);
+    var newX:Float = 30*Math.cos((angle+tilt)/57.3);
+    var newY:Float = 30*Math.sin((angle+tilt)/57.3);
     if (dir == Facing.LEFT) {
       // default is facing right, reverse if left
       newX *= -1;
@@ -121,7 +121,6 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
       }
       
     } else if (Input.check(Key.DOWN) && !Input.check(Key.UP)) {
-    
       keyHeld += HXP.elapsed;
       if (keyHeld > (1 / Config.angleRate) && angle >= 0) {
         angle--;
@@ -137,7 +136,6 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     } else if (Input.pressed(Key.RIGHT)) {
       dir = Facing.RIGHT;
     }
-    
   }
 
   public function ResetFire() {

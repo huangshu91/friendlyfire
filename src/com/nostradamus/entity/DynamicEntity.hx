@@ -8,8 +8,8 @@ import nme.geom.Point;
  */
 
 enum Facing {
-    LEFT;
-    RIGHT;
+  LEFT;
+  RIGHT;
 }
 
 interface DynamicEntity {
