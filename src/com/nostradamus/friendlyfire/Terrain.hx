@@ -14,22 +14,29 @@ class Terrain {
   private var image:Bitmap;
   private var circleMask:Bitmap;
   private var kernelSize:Int = 5;
-  private var borderPixels:Array<Point>;
+  private var borderPixels:Array<Array<Int>>;
   private var sprite:Sprite;
+  private var xOffset:Int = -10;
 
   public function new(path:String) {
     image = new Bitmap(Assets.getBitmapData(path));
+    image.x = xOffset;
     circleMask = new Bitmap(Assets.getBitmapData("gfx/mask.png"));
-    borderPixels = new Array<Point>();
+    borderPixels = new Array<Array<Int>>();
     sprite = new Sprite();
-    FindBorderPixels();
+    InitializeBorderPixels(Std.int(image.bitmapData.width/2),
+                           Std.int(image.bitmapData.width/2-2));
+    FindBorderPixels(Std.int(image.bitmapData.width/2), 
+                     Std.int(image.bitmapData.height/2), 
+                     Std.int(image.bitmapData.width/2)-2, 
+                     Std.int(image.bitmapData.height/2)-2);
     debugDraw();
     HXP.engine.addChild(image);
     HXP.engine.addChild(sprite);
   }
 
   public function carveCircle(x:Int, y:Int) {
-    CarveShape(x, y, circleMask);
+    CarveShape(x-xOffset, y, circleMask);
     debugResetColors(); 
     /* (adn): Empty border pixels array and recalculate border pixels.
      * FindBorderPixels should be optimized because this is called whenever
@@ -38,8 +45,8 @@ class Terrain {
      * shots), so it should be fast enough to not slow anything.
      * Right now there's a very noticeable delay.
      */
-    borderPixels.splice(0, borderPixels.length); 
-    FindBorderPixels();
+    // borderPixels.splice(0, borderPixels.length); 
+    FindBorderPixels(x-xOffset, y, Std.int(circleMask.width), Std.int(circleMask.height));
     debugDraw();
   }
 
@@ -64,6 +71,8 @@ class Terrain {
 
   public function render() {
     sprite.graphics.clear();
+
+    /*
     // Draw normals
     var n = 0;
     while (n < borderPixels.length) {
@@ -75,38 +84,56 @@ class Terrain {
       sprite.graphics.lineTo(x + 20*normal.x, y + 20*normal.y);
       n += 25;
     }
+    */
   }
 
   private function debugDraw() {
-    // Draw border pixels
     for (i in 0...borderPixels.length) {
-      image.bitmapData.setPixel(Std.int(borderPixels[i].x), 
-      Std.int(borderPixels[i].y), 0xff0000);
+      if (borderPixels[i] != null) {
+        for (j in 0...borderPixels[i].length) {
+          image.bitmapData.setPixel(i, borderPixels[i][j], 0xff0000);
+        }
+      }
     }
   }
   
   private function debugResetColors() {
     for (i in 0...borderPixels.length) {
-      image.bitmapData.setPixel(Std.int(borderPixels[i].x),
-      Std.int(borderPixels[i].y), 0xfefefe);
+      if (borderPixels[i] != null) {
+        for (j in 0...borderPixels[i].length) {
+          image.bitmapData.setPixel(i, borderPixels[i][j], 0xfefefe);
+        }
+      }
     }
   }
 
-  /* (adn): Optimize this somehow since it will need to be called whenever
-   * something hits the ground (border pixels need to be recalculated).
-   * Possibly only recalculating border pixels on the area that was hit but
-   * that means having to mess with the borderPixels array (removing the old
-   * ones and adding the new ones). This can get complicated really easily...
-   */
-  private function FindBorderPixels() {
-    var counter:Int = 0;
-    for (i in 1...image.bitmapData.width-1) {
-      for (j in 1...image.bitmapData.height-1) {
+  private function FindBorderPixels(x:Int, y:Int, width:Int, height:Int) {
+    ClearBorderPixels(x, y, width, height);
+    for (i in x-width...x+width) {
+      for (j in y-height...y+height) {
         if (IsBorderPixel(i, j)) {
-          borderPixels.push(new Point(i, j));
+          if (borderPixels[i] != null) {
+            borderPixels[i].push(j);
+          }
         }
       }
     } 
+  }
+
+  private function InitializeBorderPixels(x:Int, width:Int) {
+    for (i in x-width...x+width) {
+      borderPixels[i] = new Array<Int>();
+    }
+  }
+
+  private function ClearBorderPixels(x:Int, y:Int, width:Int, height:Int) {
+    for (i in x-width...x+width) {
+      for (j in y-height...y+height) {
+        if (borderPixels[i] != null) {
+          borderPixels[i].remove(j);
+        }
+      }
+    }
   }
 
   public function GetNormal(x:Int, y:Int) {
@@ -124,7 +151,13 @@ class Terrain {
   }
 
   private function IsPixelSolid(x:Int, y:Int):Bool {
-    var color:Int = image.bitmapData.getPixel(x, y);
+    var color:Int;
+    if (x > 0 && x < image.bitmapData.width-0 &&
+        y > 0 && y < image.bitmapData.height-0) {
+      color = image.bitmapData.getPixel(x, y);
+    } else {
+      color = 0;
+    }
 
     //need to find a better way to do this;;
     if (color == 16711422) { // white is terrain

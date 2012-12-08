@@ -35,7 +35,7 @@ class B2dMain {
     debugDraw.setFlags(B2DebugDraw.e_shapeBit);
     world.setDebugDraw(debugDraw);
 
-    CreateBox(320, 460, 320, 20, false);
+    CreateBox(320, 140, 160, 20, false);
     //CreateBox(310, 0, 25, 25, true);
     //CreateBox(300, 40, 25, 25, true);
     //CreateBox(290, 80, 25, 25, true);
