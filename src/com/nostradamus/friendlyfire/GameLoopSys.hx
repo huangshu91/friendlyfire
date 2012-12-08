@@ -2,6 +2,7 @@ package com.nostradamus.friendlyfire;
 
 import com.haxepunk.HXP;
 import com.nostradamus.entity.PlayerEntity;
+import nme.display.Sprite;
 import nme.geom.Point;
 
 import com.nostradamus.util.Config;
@@ -21,9 +22,19 @@ class GameLoopSys {
   private var numPlay:Int;
   private var currentTurn:TurnOrder;
   
+  //(maiev): move all graphical elements to a HUD
+  private var powerInd:Sprite;
+  private var shotInd:Sprite;
+  
+  private var shotVal:Float;
+  
   public function new() {
     numPlay = Config.numPlayers; 
     currentTurn = playerOne;
+    powerInd = new Sprite();
+    HXP.engine.addChild(powerInd);
+    shotInd = new Sprite();
+    HXP.engine.addChild(shotInd);
   }
   
   public function update() {
@@ -48,13 +59,13 @@ class GameLoopSys {
         id = "p1";
         player = cast(HXP.world.getInstance(id), PlayerEntity);
         player.UpdateTurn();
-        //HXP.log("player1 turn");
+        shotVal = player.shotPower;
       }
       case playerTwo: {
         id = "p2";
         player = cast(HXP.world.getInstance(id), PlayerEntity);
         player.UpdateTurn();
-        //HXP.log("player2 turn");
+        shotVal = player.shotPower;
       }
       case world: {
         for (i in 0...playerList.length) {
@@ -66,6 +77,27 @@ class GameLoopSys {
       }
       default:
     }
+    
+    Render();
+    
+  }
+  
+  public function Render() {
+    //(maiev): render hud/menus etc
+    
+    var xStart:Float = Config.screenWidth * Config.powerBar;
+    var yStart:Float = Config.screenHeight * .1;
+    var xEnd:Float = Config.screenWidth * (1 - Config.powerBar);
+    
+    powerInd.graphics.clear();
+    powerInd.graphics.lineStyle(12, 0xFF0000);
+    powerInd.graphics.moveTo(xStart, yStart);
+    powerInd.graphics.lineTo(xEnd, yStart);
+    
+    shotInd.graphics.clear();
+    shotInd.graphics.lineStyle(6, 0x00FF00);
+    shotInd.graphics.moveTo(xStart, yStart);
+    shotInd.graphics.lineTo(xStart+((xEnd-xStart)*(shotVal/Config.maxPower)), yStart);
     
   }
   

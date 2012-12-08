@@ -43,4 +43,6 @@ class Config {
   public static inline var angleLength:Int = 30;
   
   public static inline var maxPower:Int = 60;
+  // Offset from sides of the screen
+  public static inline var powerBar:Float = 0.1;
 }
