@@ -13,6 +13,7 @@ import com.nostradamus.scene.GameScene;
 import com.nostradamus.entity.B2dEntity;
 import com.nostradamus.util.Config;
 import com.nostradamus.entity.DynamicEntity;
+import com.nostradamus.math.Vector;
 
 /**
  * ...
@@ -26,11 +27,6 @@ import com.nostradamus.entity.DynamicEntity;
  */
 
 class PlayerEntity extends B2dEntity, implements DynamicEntity {
-  
-  // The default Entity.centerX and centerY are for hitbox not plain loc
-  private var locX:Float;
-  private var locY:Float;
-  
   private var hasFired:Bool;
   
   public var bullets:Array<BulletEntity>;
@@ -62,32 +58,28 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
 
     bullets = new Array<BulletEntity>();
     
-    // (maiev): this is hardcoded until I find a method to get the halfsize
-    locX = this.halfWidth + x + size;
-    locY = this.halfHeight + y + size;
     name = pName;
   }
   
   override public function update() {
     super.update();
-    this.moveTo(bodyCenterX - 16, bodyCenterY - 16);
+    this.moveTo(bodyCenter.x - radius, bodyCenter.y - radius);
     
     // (maiev): move all drawing code to render in future
     angleInd.graphics.clear();
     angleInd.graphics.lineStyle(1, 0xFFFFFF);
-    angleInd.graphics.moveTo(bodyCenterX, bodyCenterY);
+    angleInd.graphics.moveTo(bodyCenter.x, bodyCenter.y);
     
-    // 57.3 is how many degrees in a radian, use constant in future
-    var newX:Float = 30*Math.cos((angle+tilt)/57.3);
-    var newY:Float = 30*Math.sin((angle+tilt)/57.3);
+    var newP:Vector = new Vector(30*Math.cos((angle + tilt)/Config.degInRad),
+                                 30*Math.sin((angle + tilt)/Config.degInRad));
     if (dir == Facing.LEFT) {
       // default is facing right, reverse if left
-      newX *= -1;
+      newP.x *= -1;
     }
-    angleInd.graphics.lineTo(bodyCenterX + newX, bodyCenterY - newY);
+    angleInd.graphics.lineTo(bodyCenter.x + newP.x, bodyCenter.y - newP.y);
     
   }
-  
+
   public function UpdateTurn() {
     // Key down will be true for more than 1 frame so need to check for
     // key release instead.
@@ -96,7 +88,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     }
     
     if (Input.check(Key.Z)) { // && hasFired == false
-      shotPower += Config.chargeRate * HXP.elapsed;
+      shotPower += Config.chargeRate*HXP.elapsed;
       if (shotPower > 60) shotPower = Config.maxPower;
       HXP.log(shotPower);
     } else if (Input.released(Key.Z)) {
@@ -106,7 +98,7 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
         xOffset = (dir == Facing.LEFT) ? -30 : 30;
         // 30 and 20 are offsets so bullet does not collide with body
         // in future, mask so they can't collide.
-        var bullet = new BulletEntity(bodyCenterX + xOffset, bodyCenterY - 20, 
+        var bullet = new BulletEntity(bodyCenter.x + xOffset, bodyCenter.y - 20, 
                                       scene, this);
         bullets.push(bullet);
         HXP.world.add(bullet);
@@ -115,14 +107,14 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
     
     if (Input.check(Key.UP) && !Input.check(Key.DOWN)) {
       keyHeld += HXP.elapsed;
-      if (keyHeld > (1 / Config.angleRate) && angle <= 90) {
+      if (keyHeld > (1/Config.angleRate) && angle < 90) {
         angle++;
         keyHeld = 0;
       }
       
     } else if (Input.check(Key.DOWN) && !Input.check(Key.UP)) {
       keyHeld += HXP.elapsed;
-      if (keyHeld > (1 / Config.angleRate) && angle >= 0) {
+      if (keyHeld > (1/Config.angleRate) && angle > 0) {
         angle--;
         keyHeld = 0;
       }
@@ -140,11 +132,5 @@ class PlayerEntity extends B2dEntity, implements DynamicEntity {
 
   public function ResetFire() {
     hasFired = false;
-  }
-  
-
-
-  public function GetCenter():Point {
-    return new Point(locX, locY);
   }
 }

@@ -79,15 +79,13 @@ class GameLoopSys {
     }
     
     Render();
-    
   }
   
   public function Render() {
     //(maiev): render hud/menus etc
-    
-    var xStart:Float = Config.screenWidth * Config.powerBar;
-    var yStart:Float = Config.screenHeight * .1;
-    var xEnd:Float = Config.screenWidth * (1 - Config.powerBar);
+    var xStart:Float = Config.screenWidth*Config.powerBar;
+    var yStart:Float = Config.screenHeight*.1;
+    var xEnd:Float = Config.screenWidth*(1 - Config.powerBar);
     
     powerInd.graphics.clear();
     powerInd.graphics.lineStyle(12, 0xFF0000);
@@ -98,11 +96,9 @@ class GameLoopSys {
     shotInd.graphics.lineStyle(6, 0x00FF00);
     shotInd.graphics.moveTo(xStart, yStart);
     shotInd.graphics.lineTo(xStart+((xEnd-xStart)*(shotVal/Config.maxPower)), yStart);
-    
   }
   
   public function EndTurn() {
-
     // Change camera focus and inbetween turn logic.
     switch (currentTurn) {
       case playerOne: currentTurn = playerTwo;

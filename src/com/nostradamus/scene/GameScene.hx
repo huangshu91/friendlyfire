@@ -39,7 +39,7 @@ class GameScene extends World {
     gameManager = new GameLoopSys();
     worldCam = new BoundCamera(this);
     physicsWorld = new B2dMain();
-    HXP.console.enable();
+    //HXP.console.enable();
   }
   
   public override function begin() {

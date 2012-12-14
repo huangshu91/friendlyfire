@@ -24,19 +24,20 @@ class Terrain {
     circleMask = new Bitmap(Assets.getBitmapData("gfx/mask.png"));
     borderPixels = new Array<Array<Int>>();
     sprite = new Sprite();
+    // -2 so it doesn't count the image's actual border as border pixels.
     InitializeBorderPixels(Std.int(image.bitmapData.width/2),
-                           Std.int(image.bitmapData.width/2-2));
+                           Std.int(image.bitmapData.width/2 - 2));
     FindBorderPixels(Std.int(image.bitmapData.width/2), 
                      Std.int(image.bitmapData.height/2), 
-                     Std.int(image.bitmapData.width/2)-2, 
-                     Std.int(image.bitmapData.height/2)-2);
+                     Std.int(image.bitmapData.width/2) - 2, 
+                     Std.int(image.bitmapData.height/2) - 2);
     debugDraw();
     HXP.engine.addChild(image);
     HXP.engine.addChild(sprite);
   }
 
-  public function carveCircle(x:Int, y:Int) {
-    CarveShape(x-xOffset, y, circleMask);
+  public function carveCircle(x:Int, y:Int, mask:Bitmap) {
+    CarveShape(x - xOffset, y, mask);
     debugResetColors(); 
     /* (adn): Empty border pixels array and recalculate border pixels.
      * FindBorderPixels should be optimized because this is called whenever
@@ -46,7 +47,7 @@ class Terrain {
      * Right now there's a very noticeable delay.
      */
     // borderPixels.splice(0, borderPixels.length); 
-    FindBorderPixels(x-xOffset, y, Std.int(circleMask.width), Std.int(circleMask.height));
+    FindBorderPixels(x - xOffset, y, Std.int(mask.width), Std.int(mask.height));
     debugDraw();
   }
 
@@ -65,7 +66,7 @@ class Terrain {
   
   public function update() {
     if (Input.mousePressed) {
-      carveCircle(Input.mouseX, Input.mouseY);
+      carveCircle(Input.mouseX, Input.mouseY, circleMask);
     }
   }
 
@@ -152,8 +153,8 @@ class Terrain {
 
   private function IsPixelSolid(x:Int, y:Int):Bool {
     var color:Int;
-    if (x > 0 && x < image.bitmapData.width-0 &&
-        y > 0 && y < image.bitmapData.height-0) {
+    if (x > 0 && x < image.bitmapData.width &&
+        y > 0 && y < image.bitmapData.height) {
       color = image.bitmapData.getPixel(x, y);
     } else {
       color = 0;

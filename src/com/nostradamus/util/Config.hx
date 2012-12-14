@@ -45,4 +45,7 @@ class Config {
   public static inline var maxPower:Int = 60;
   // Offset from sides of the screen
   public static inline var powerBar:Float = 0.1;
+
+  // How many degrees in one radian
+  public static inline var degInRad:Float = 57.3;
 }

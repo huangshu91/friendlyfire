@@ -9,6 +9,7 @@ import box2D.dynamics.B2FixtureDef;
 
 import com.nostradamus.util.Config;
 import com.nostradamus.scene.GameScene;
+import com.nostradamus.math.Vector;
 
 /**
  * ...
@@ -16,19 +17,18 @@ import com.nostradamus.scene.GameScene;
  */
 
 class B2dEntity extends Entity {
-  
   private var body:B2Body;
   private var scene:GameScene;
   
-  private var bodyCenterX:Float;
-  private var bodyCenterY:Float;
-  
+  private var bodyCenter:Vector;
   private var radius:Float;
 
   public function new(x:Float, y:Float, size:Float,
                       game:GameScene, type:EntityType) {
     super(x, y);
     scene = game;
+    bodyCenter = new Vector();
+    radius = size;
     
     switch (type) {
       case EntityType.PLAYER: {
@@ -45,17 +45,16 @@ class B2dEntity extends Entity {
   }
   
   private function playerBody(x:Float, y:Float, size:Float) {
-    bodyCenterX = (x+size) / Config.physScale;
-    bodyCenterY = (y+size) / Config.physScale;
+    bodyCenter.x = (x + size)/Config.physScale;
+    bodyCenter.y = (y + size)/Config.physScale;
     radius = size;
     
     var bodyDef:B2BodyDef = new B2BodyDef();
     bodyDef.type = B2Body.b2_dynamicBody;
-    bodyDef.position.set((x+size) / Config.physScale, (y+size) / Config.physScale);
-
+    bodyDef.position.set(bodyCenter.x, bodyCenter.y);
 
     // (maiev): for now the size/radius is hardcoded but we can define
-    var circShape:B2CircleShape = new B2CircleShape(radius / Config.physScale);
+    var circShape:B2CircleShape = new B2CircleShape(radius/Config.physScale);
     
     var fixtureDef:B2FixtureDef = new B2FixtureDef();
     fixtureDef.shape = circShape;
@@ -71,10 +70,8 @@ class B2dEntity extends Entity {
   override public function update() {
     super.update();
     
-    var newX:Float = Config.physScale * body.getPosition().x;
-    var newY:Float = Config.physScale * body.getPosition().y;
-    
-    bodyCenterX = newX;
-    bodyCenterY = newY;
+    var newP:Vector = new Vector(Config.physScale*body.getPosition().x,
+                                 Config.physScale*body.getPosition().y);
+    bodyCenter = newP;
   }
 }
